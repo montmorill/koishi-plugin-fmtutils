@@ -1,0 +1,14 @@
+commands:
+  markdown:
+    description: 渲染为 markdown
+  tex:
+    description: 渲染为 TeX
+  code:
+    description: 渲染为代码块
+    options:
+      lang: 语言标识符
+  table:
+    description: 渲染为表格
+    options:
+      virtual: 使用虚拟表头
+      transpose: 转置表格行列

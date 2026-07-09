@@ -1,0 +1,14 @@
+commands:
+  markdown:
+    description: Render as markdown
+  tex:
+    description: Render as TeX
+  code:
+    description: Render as code block
+    options:
+      lang: Language identifier
+  table:
+    description: Render as table
+    options:
+      virtual: Use virtual header
+      transpose: Transpose table rows and columns
