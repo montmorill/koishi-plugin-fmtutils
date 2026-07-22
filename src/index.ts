@@ -24,15 +24,15 @@ export function apply(ctx: Context, config: Config) {
   ctx.i18n.define('zh-CN', zhCN)
 
   config.markdown && ctx.command('markdown <message:text>')
-    .action((_, message) => h('markdown', message))
+    .action((_, message) => h('markdown', h.text(message)))
 
   config.tex && ctx.command('tex <message:text>')
-    .action((_, message) => h('markdown', `$$\n${message}\n$$`))
+    .action((_, message) => h('markdown', `$$\n${h.text(message)}\n$$`))
 
   config.code && ctx.command('code <message:text>')
     .option('lang', '-l <lang:string>')
     .action(({ options }, message) =>
-      h('markdown', `\`\`\`${options?.lang || ''}\n${message}\n\`\`\``))
+      h('markdown', `\`\`\`${options?.lang || ''}\n${h.text(message)}\n\`\`\``))
 
   config.table && ctx.command('table <message:text>')
     .option('virtual', '-v')
@@ -46,8 +46,10 @@ export function apply(ctx: Context, config: Config) {
 
       options?.virtual && cells.unshift([])
       const lines = cells.map(row =>
-        `|${Array.from({ length: columnCount }, (_, index) =>
-          row[index]?.replaceAll('|', '\\|') ?? '').join('|')}|`)
+        `|${Array.from(
+          { length: columnCount },
+          (_, index) => h.text(row[index]),
+        ).join('|')}|`)
       lines.splice(1, 0, `${'|-'.repeat(columnCount)}|`)
 
       return h('markdown', lines.join('\n'))
