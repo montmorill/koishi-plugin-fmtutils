@@ -1,7 +1,7 @@
 import type { Context } from 'koishi'
 import { h, Schema } from 'koishi'
-import enUS from '../locales/en-US.yml'
-import zhCN from '../locales/zh-CN.yml'
+import enUS from './locales/en-US.yml'
+import zhCN from './locales/zh-CN.yml'
 
 export const name = 'fmtutils'
 
