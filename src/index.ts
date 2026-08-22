@@ -27,12 +27,12 @@ export function apply(ctx: Context, config: Config) {
     .action((_, message) => h('markdown', h.text(message)))
 
   config.tex && ctx.command('tex <message:text>')
-    .action((_, message) => h('markdown', `$$\n${h.text(message)}\n$$`))
+    .action((_, message) => h('markdown', `$$\n`, h.text(message), `\n$$`))
 
   config.code && ctx.command('code <message:text>')
     .option('lang', '-l <lang:string>')
     .action(({ options }, message) =>
-      h('markdown', `\`\`\`${options?.lang || ''}\n${h.text(message)}\n\`\`\``))
+      h('markdown', `\`\`\`${options?.lang || ''}\n`, h.text(message), `\n\`\`\``))
 
   config.table && ctx.command('table <message:text>')
     .option('virtual', '-v')
