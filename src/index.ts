@@ -27,12 +27,16 @@ export function apply(ctx: Context, config: Config) {
     .action((_, message) => h('markdown', h.text(message)))
 
   config.tex && ctx.command('tex <message:text>')
-    .action((_, message) => h('markdown', `$$\n`, h.text(message), `\n$$`))
+    .action((_, message) => h('markdown', `$$`, h('br'), h.text(message.replaceAll('$', '\\$')), h('br'), `$$`))
 
   config.code && ctx.command('code <message:text>')
     .option('lang', '-l <lang:string>')
-    .action(({ options }, message) =>
-      h('markdown', `\`\`\`${options?.lang || ''}\n`, h.text(message), `\n\`\`\``))
+    .action(({ options }, message) => {
+      const matches = message.match(/`+/g) ?? ['']
+      const maxBackticks = Math.max(...matches.map(m => m.length))
+      const fence = '`'.repeat(Math.max(3, maxBackticks + 1))
+      return h('markdown', fence, options?.lang, h('br'), h.text(message), h('br'), fence)
+    })
 
   config.table && ctx.command('table <message:text>')
     .option('virtual', '-v')
