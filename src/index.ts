@@ -42,7 +42,7 @@ export function apply(ctx: Context, config: Config) {
     .option('virtual', '-v')
     .option('transpose', '-T')
     .action(({ options }, message) => {
-      let cells = message.split('\n').map(line => line.split(' '))
+      let cells = message.split('\n').map(line => line.split(/\s+/))
       const maxLength = Math.max(...cells.map(row => row.length))
       const columnCount = options?.transpose ? cells.length : maxLength
       if (options?.transpose)
@@ -52,7 +52,7 @@ export function apply(ctx: Context, config: Config) {
       const lines = cells.map(row =>
         `|${Array.from(
           { length: columnCount },
-          (_, index) => h.text(row[index]),
+          (_, index) => h.text(row[index].replaceAll('|', '\\|')),
         ).join('|')}|`)
       lines.splice(1, 0, `${'|-'.repeat(columnCount)}|`)
 
